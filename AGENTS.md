@@ -24,8 +24,9 @@
   - Evitar criterios vagos como "melhorar UX" sem medida.
 - Ao gerar artefatos:
   - Sempre incluir criterios de aceitacao testaveis.
+  - Sempre incluir Depends on em subtasks.
   - Sempre incluir como implementar perto do nivel de arquivo.
-  - Sempre incluir como testar (fluxo TDD-like).
+  - Sempre incluir como testar.
 
 ## Fontes de Verdade no Repositorio
 
@@ -78,10 +79,9 @@ Use este formato:
 **Objetivo**
 Descrever a entrega em 1-2 frases.
 
-**Escopo de Implementacao (nivel de arquivo)**
-- Arquivo 1 a alterar/criar e o que fazer nele.
-- Arquivo 2 a alterar/criar e o que fazer nele.
-- Rotas/links/estados envolvidos.
+**Depends on**
+- Tasks: IDs de tasks bloqueadoras (ex.: US14-FE01, US14-BE01) ou não incluir item Tasks.
+- Pré-requisitos: contratos, endpoints, dados, acessos e decisões técnicas necessárias antes da implementação.
 
 **Criterios de Aceitacao**
 - [ ] Criterio funcional 1 com resultado esperado.
@@ -91,7 +91,7 @@ Descrever a entrega em 1-2 frases.
 - [ ] Criterio de i18n relevante (pt/de/en), quando houver texto.
 - [ ] Criterio de performance relevante, quando houver mapa/3D/lista pesada.
 
-**Como Testar (TDD-like)**
+**Como Testar**
 1. Escrever/ajustar teste que falha para o comportamento alvo.
 2. Implementar o minimo para o teste passar.
 3. Refatorar mantendo todos os testes verdes.
@@ -105,6 +105,11 @@ Descrever a entrega em 1-2 frases.
 ```
 
 ## Checklist Obrigatório (toda US/tarefa)
+
+- Dependencias (obrigatorio em subtasks):
+  - explicitar tasks bloqueadoras por ID;
+  - explicitar pre-requisitos tecnicos e/ou de negocio;
+  - evitar dependencia vaga como "backend pronto" sem detalhar contrato/endpoint.
 
 - Acessibilidade (A11y):
   - contraste adequado;
@@ -185,6 +190,7 @@ Quando solicitado, o agente deve conseguir produzir:
 - US completa no formato canonico.
 - Quebra de subtasks frontend (ex.: US14-FE03) com:
   - objetivo;
+  - depends on;
   - escopo em nivel de arquivo;
   - criterios de aceitacao claros;
   - plano de teste TDD-like;

@@ -9,6 +9,13 @@ Este documento detalha subtasks frontend para todas as US do Épico 03, com foco
 **Objetivo**
 Criar a página principal do mapa com layout responsivo e estado inicial centralizado no Centro Histórico de Porto Alegre.
 
+**Depends on**
+- Pré-requisitos: Definição de centro/zoom inicial do Centro Histórico validada e rota /mapa disponível.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US14-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US14-FE01.jpg)
+
 **Critérios de Aceitação**
 - [ ] A rota /mapa deve renderizar o mapa com centro inicial no Centro Histórico.
 - [ ] O layout deve priorizar viewport mobile e expandir corretamente para tablet/desktop.
@@ -34,6 +41,16 @@ Criar a página principal do mapa com layout responsivo e estado inicial central
 **Objetivo**
 Integrar dados de edificações para plotar pontos no mapa assim que os dados estiverem disponíveis.
 
+**Depends on**
+- Tasks: [US14-FE01](https://github.com/POA-Alema/Project/issues/48).
+- Pré-requisitos: Estrutura de dados de edificações com latitude/longitude definida no frontend.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US14-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US14-FE02.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] Cada edificação com coordenada válida deve aparecer no mapa.
 - [ ] Caso não haja coordenadas, o sistema deve manter o mapa funcional e exibir feedback de dados indisponíveis.
@@ -54,12 +71,51 @@ Integrar dados de edificações para plotar pontos no mapa assim que os dados es
 - Não afeta rotas já existentes.
 - Critérios de aceitação atendidos e demonstráveis.
 
+### US14-FE03 - Integrar mapa com fonte de dados real do backend
+
+**Objetivo**
+Conectar a experiência inicial do mapa aos dados reais das edificações, com fallback seguro para indisponibilidade de serviço.
+
+**Depends on**
+- Tasks: [US14-FE01](https://github.com/POA-Alema/Project/issues/48), [US14-FE02](https://github.com/POA-Alema/Project/issues/49), [US14-BE59](https://github.com/POA-Alema/Project/issues/59).
+- Pré-requisitos: Endpoint de edificações disponível, contrato de resposta acordado e variáveis de ambiente configuradas.
+
+**Critérios de Aceitação**
+- [ ] O frontend deve consumir endpoint real de edificações para popular o mapa.
+- [ ] Em falha ou timeout, o sistema deve exibir fallback claro e manter a rota funcional.
+- [ ] O carregamento de integração deve priorizar viewport mobile e manter comportamento em desktop.
+- [ ] Mensagens de loading/erro devem ser compatíveis com leitor de tela.
+- [ ] Textos de estado devem suportar i18n (pt/de/en).
+- [ ] O sistema deve registrar eventos de analytics no sucesso e falha da carga inicial.
+
+**Como Testar**
+1. Escrever teste de integração para sucesso e erro da API de edificações.
+2. Implementar adapter de payload e estados de loading/erro na rota /mapa.
+3. Refatorar sem quebrar tipagem e mantendo testes verdes.
+4. Validar manualmente primeiro em viewport mobile e depois desktop.
+5. Registrar evidências com print dos estados e output de testes.
+
+**Definição de Pronto**
+- Testes da tarefa passam.
+- Não afeta rotas já existentes.
+- Critérios de aceitação atendidos e demonstráveis.
+
 ## US15 - Identificar edificações no mapa
 
 ### US15-FE01 - Renderizar marcadores acessíveis para cada edificação
 
 **Objetivo**
 Exibir marcadores claros e distinguíveis para todas as edificações georreferenciadas.
+
+**Depends on**
+- Tasks: [US14-FE02](https://github.com/POA-Alema/Project/issues/49).
+- Pré-requisitos: Dados georreferenciados disponíveis para renderização de marcadores.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US15-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US15-FE01.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] Cada edificação com coordenada deve possuir um marcador visível.
@@ -85,6 +141,16 @@ Exibir marcadores claros e distinguíveis para todas as edificações georrefere
 
 **Objetivo**
 Garantir que hover/click no desktop e toque no mobile permitam interação consistente com cada marcador.
+
+**Depends on**
+- Tasks: [US15-FE01](https://github.com/POA-Alema/Project/issues?q=US15-FE01).
+- Pré-requisitos: Estados ativo/foco do marcador definidos para desktop e mobile.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US15-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US15-FE02.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] No desktop, o marcador deve responder a hover e click.
@@ -113,6 +179,16 @@ Garantir que hover/click no desktop e toque no mobile permitam interação consi
 **Objetivo**
 Permitir navegação fluida no mapa por arraste, controles de zoom e gesto de pinça no mobile.
 
+**Depends on**
+- Tasks: [US14-FE01](https://github.com/POA-Alema/Project/issues/48).
+- Pré-requisitos: Abordagem de mapa com suporte a pan/zoom e gestos touch definida.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US16-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US16-FE01.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] O usuário deve conseguir mover o mapa por arraste.
 - [ ] O usuário deve aplicar zoom via controles e gesto de pinça no mobile.
@@ -137,6 +213,16 @@ Permitir navegação fluida no mapa por arraste, controles de zoom e gesto de pi
 
 **Objetivo**
 Garantir consistência de navegação, incluindo usabilidade por teclado e estabilidade visual durante interações repetidas.
+
+**Depends on**
+- Tasks: [US16-FE01](https://github.com/POA-Alema/Project/issues/72).
+- Pré-requisitos: Padrão de acessibilidade dos controles (foco, aria-label e ordem de tab) definido.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US16-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US16-FE02.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] O foco por teclado deve acessar controles principais de navegação do mapa.
@@ -165,6 +251,16 @@ Garantir consistência de navegação, incluindo usabilidade por teclado e estab
 **Objetivo**
 Exibir popup ao interagir com marcador contendo nome, imagem e descrição breve da edificação.
 
+**Depends on**
+- Tasks: [US15-FE02](https://github.com/POA-Alema/Project/issues/51).
+- Pré-requisitos: Campos mínimos de popup (nome, imagem, descrição) disponíveis no dataset.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US17-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US17-FE01.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] Ao clicar/tocar no marcador, um popup deve abrir com nome, imagem e breve descrição.
 - [ ] O popup deve exibir fallback quando imagem estiver indisponível.
@@ -189,6 +285,16 @@ Exibir popup ao interagir com marcador contendo nome, imagem e descrição breve
 
 **Objetivo**
 Adicionar ação clara no popup para abrir a página detalhada da edificação sem fricção.
+
+**Depends on**
+- Tasks: [US17-FE01](https://github.com/POA-Alema/Project/issues/74).
+- Pré-requisitos: Rota de detalhe da edificação definida para montagem do CTA.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US17-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US17-FE02.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] O popup deve possuir CTA claro para abrir detalhes da edificação.
@@ -217,6 +323,16 @@ Adicionar ação clara no popup para abrir a página detalhada da edificação s
 **Objetivo**
 Expandir página de detalhe para exibir nome, histórico, imagens e descrição arquitetônica da edificação.
 
+**Depends on**
+- Tasks: [US17-FE02](https://github.com/POA-Alema/Project/issues/75).
+- Pré-requisitos: Modelo de dados de detalhe (histórico, imagens e descrição arquitetônica) definido.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US18-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US18-FE01.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] A página de detalhe deve exibir campos completos da edificação selecionada.
 - [ ] Em slug inválido, o sistema deve aplicar fallback adequado.
@@ -242,6 +358,16 @@ Expandir página de detalhe para exibir nome, histórico, imagens e descrição 
 **Objetivo**
 Permitir retorno fácil para o mapa a partir da página de detalhe sem perda de contexto principal.
 
+**Depends on**
+- Tasks: [US18-FE01](https://github.com/POA-Alema/Project/issues?q=US18-FE01).
+- Pré-requisitos: Estratégia de retorno ao mapa (href/query params) definida.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US18-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US18-FE02.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] A página de detalhe deve exibir ação de retorno ao mapa.
 - [ ] O retorno deve funcionar em mobile e desktop.
@@ -262,12 +388,51 @@ Permitir retorno fácil para o mapa a partir da página de detalhe sem perda de 
 - Não afeta rotas já existentes.
 - Critérios de aceitação atendidos e demonstráveis.
 
+### US18-FE03 - Integrar página de detalhe com dados reais por slug
+
+**Objetivo**
+Conectar a rota de detalhe da edificação ao backend por slug, garantindo fallback para erro e não encontrado.
+
+**Depends on**
+- Tasks: [US18-FE01](https://github.com/POA-Alema/Project/issues?q=US18-FE01), US18-BE (task de backend correspondente, por criar).
+- Pré-requisitos: Endpoint de detalhe por slug disponível e política de fallback (erro/not found) acordada.
+
+**Critérios de Aceitação**
+- [ ] A rota de detalhe deve carregar dados reais da edificação por slug válido.
+- [ ] Para slug inválido ou não encontrado, deve exibir fallback consistente.
+- [ ] A integração deve preservar leitura confortável em viewport mobile.
+- [ ] O conteúdo dinâmico deve manter alt text e semântica acessível.
+- [ ] Labels e mensagens da rota devem suportar i18n (pt/de/en).
+- [ ] O sistema deve registrar evento de analytics para carregamento e erro do detalhe.
+
+**Como Testar**
+1. Escrever teste de integração para slug válido, inválido e erro de serviço.
+2. Implementar consumo por slug com estados de sucesso e fallback.
+3. Refatorar o painel de detalhe mantendo todos os testes verdes.
+4. Validar manualmente o fluxo no mobile e depois desktop.
+5. Registrar evidências com prints dos cenários e output dos testes.
+
+**Definição de Pronto**
+- Testes da tarefa passam.
+- Não afeta rotas já existentes.
+- Critérios de aceitação atendidos e demonstráveis.
+
 ## US19 - Acessar materiais e modelos tridimensionais das edificações
 
 ### US19-FE01 - Criar seção de materiais adicionais na página da edificação
 
 **Objetivo**
 Disponibilizar seção organizada para plantas, documentos e análises quando o conteúdo existir.
+
+**Depends on**
+- Tasks: [US18-FE01](https://github.com/POA-Alema/Project/issues?q=US18-FE01).
+- Pré-requisitos: Taxonomia de materiais (planta/documento/análise) definida para exibição.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US19-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US19-FE01.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] A página da edificação deve exibir seção de materiais quando houver conteúdo.
@@ -294,6 +459,16 @@ Disponibilizar seção organizada para plantas, documentos e análises quando o 
 **Objetivo**
 Implementar estratégia de lazy-load para modelos tridimensionais e outros conteúdos de alto custo.
 
+**Depends on**
+- Tasks: [US19-FE01](https://github.com/POA-Alema/Project/issues/76).
+- Pré-requisitos: Estratégia de lazy-load e componente de fallback do viewer definida.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US19-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US19-FE02.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] Conteúdos 3D devem carregar somente sob ação explícita do usuário.
 - [ ] Enquanto carrega, deve existir feedback visual de progresso.
@@ -314,12 +489,51 @@ Implementar estratégia de lazy-load para modelos tridimensionais e outros conte
 - Não afeta rotas já existentes.
 - Critérios de aceitação atendidos e demonstráveis.
 
+### US19-FE03 - Integrar materiais e conteúdos 3D com backend
+
+**Objetivo**
+Conectar materiais adicionais e conteúdo 3D aos serviços reais, mantendo lazy-load e fallback amigável em falhas.
+
+**Depends on**
+- Tasks: [US19-FE01](https://github.com/POA-Alema/Project/issues/76), [US19-FE02](https://github.com/POA-Alema/Project/issues/77), US19-BE (task de backend correspondente, por criar).
+- Pré-requisitos: Fontes reais de materiais e recursos 3D disponíveis para integração.
+
+**Critérios de Aceitação**
+- [ ] A seção deve exibir materiais vindos do backend quando disponíveis.
+- [ ] Conteúdo 3D deve manter carregamento sob demanda após integração.
+- [ ] Em falha de material/3D, o sistema deve exibir fallback claro sem quebrar a rota.
+- [ ] Controles de conteúdo pesado devem manter acessibilidade por teclado e leitor de tela.
+- [ ] Mensagens da seção devem suportar i18n (pt/de/en).
+- [ ] O sistema deve registrar evento de analytics para abertura de material e tentativa de 3D.
+
+**Como Testar**
+1. Escrever teste de integração para cenário com materiais, sem materiais e erro de recurso.
+2. Implementar integração da seção com estado de fallback e lazy-load.
+3. Refatorar estrutura de renderização mantendo testes verdes.
+4. Validar manualmente em rede móvel simulada e desktop.
+5. Registrar evidências com prints/vídeo curto e output dos testes.
+
+**Definição de Pronto**
+- Testes da tarefa passam.
+- Não afeta rotas já existentes.
+- Critérios de aceitação atendidos e demonstráveis.
+
 ## US20 - Filtrar edificações no mapa
 
 ### US20-FE01 - Implementar UI de filtros no mapa
 
 **Objetivo**
 Criar painel de filtros simples e intuitivo para controlar visibilidade de conjuntos de edificações.
+
+**Depends on**
+- Tasks: [US14-FE02](https://github.com/POA-Alema/Project/issues/49).
+- Pré-requisitos: Conjunto de categorias/filtros definido para a experiência do mapa.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US20-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US20-FE01.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] O usuário deve conseguir ativar e desativar filtros no mapa.
@@ -345,6 +559,16 @@ Criar painel de filtros simples e intuitivo para controlar visibilidade de conju
 
 **Objetivo**
 Fazer com que os filtros impactem diretamente a exibição dos marcadores no mapa.
+
+**Depends on**
+- Tasks: [US20-FE01](https://github.com/POA-Alema/Project/issues/78), [US15-FE01](https://github.com/POA-Alema/Project/issues?q=US15-FE01).
+- Pré-requisitos: Predicados de filtragem e estratégia de reset definidos e testáveis.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US20-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US20-FE02.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] Ao ativar filtro, apenas marcadores correspondentes devem permanecer visíveis.
@@ -373,6 +597,16 @@ Fazer com que os filtros impactem diretamente a exibição dos marcadores no map
 **Objetivo**
 Criar base de internacionalização para suportar português, alemão e inglês no fluxo de mapa e edificações.
 
+**Depends on**
+- Tasks: Nenhuma task bloqueadora.
+- Pré-requisitos: Chaves base de tradução e estrutura do provider definidas.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US21-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US21-FE01.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] O sistema deve permitir alternar idioma entre pt/de/en.
 - [ ] A mudança de idioma deve atualizar textos renderizados sem recarregar página.
@@ -397,6 +631,12 @@ Criar base de internacionalização para suportar português, alemão e inglês 
 
 **Objetivo**
 Manter idioma selecionado entre sessões e aplicar detecção automática quando o usuário ainda não escolheu manualmente.
+
+**Depends on**
+- Tasks: [US21-FE01](https://github.com/POA-Alema/Project/issues/54).
+- Pré-requisitos: Política de persistência de idioma (storage) definida.
+
+---
 
 **Critérios de Aceitação**
 - [ ] O idioma selecionado deve persistir após recarregar a página.
@@ -423,6 +663,16 @@ Manter idioma selecionado entre sessões e aplicar detecção automática quando
 **Objetivo**
 Aplicar i18n em todos os textos de interface das rotas e componentes impactados por Epico03.
 
+**Depends on**
+- Tasks: [US21-FE01](https://github.com/POA-Alema/Project/issues/54), [US21-FE02](https://github.com/POA-Alema/Project/issues/55).
+- Pré-requisitos: Inventário de textos por rota/componente concluído.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US21-FE03](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US21-FE03.jpg)
+
+---
+
 **Critérios de Aceitação**
 - [ ] Conteúdo textual da experiência de mapa e detalhe deve alternar corretamente entre pt/de/en.
 - [ ] Chaves ausentes devem usar fallback controlado sem quebrar UI.
@@ -443,12 +693,51 @@ Aplicar i18n em todos os textos de interface das rotas e componentes impactados 
 - Não afeta rotas já existentes.
 - Critérios de aceitação atendidos e demonstráveis.
 
+### US21-FE04 - Integrar i18n com conteúdo dinâmico do backend/CMS
+
+**Objetivo**
+Consumir mensagens e conteúdo multilíngue de origem dinâmica, com fallback local para chaves ausentes.
+
+**Depends on**
+- Tasks: [US21-FE01](https://github.com/POA-Alema/Project/issues/54), [US21-FE03](https://github.com/POA-Alema/Project/issues/56), US21-BE (task de backend correspondente, por criar).
+- Pré-requisitos: Contrato de conteúdo multilíngue no backend/CMS disponível.
+
+**Critérios de Aceitação**
+- [ ] O sistema deve carregar conteúdo traduzido dinâmico para pt/de/en.
+- [ ] Em chave ausente, o sistema deve aplicar fallback controlado sem quebrar a interface.
+- [ ] A troca de idioma deve continuar fluida em mobile e desktop.
+- [ ] Elementos de seleção de idioma devem manter acessibilidade completa.
+- [ ] O idioma ativo deve permanecer consistente durante a navegação.
+- [ ] O sistema deve registrar evento de analytics para troca de idioma e uso de fallback.
+
+**Como Testar**
+1. Escrever teste de integração para carregamento dinâmico de locale e fallback de chave.
+2. Implementar consumo das mensagens externas no provider global.
+3. Refatorar fluxo de idioma sem quebrar testes existentes.
+4. Validar manualmente troca de idioma no fluxo completo em mobile e desktop.
+5. Registrar evidências com prints nos 3 idiomas e output dos testes.
+
+**Definição de Pronto**
+- Testes da tarefa passam.
+- Não afeta rotas já existentes.
+- Critérios de aceitação atendidos e demonstráveis.
+
 ## US22 - Localizar minha posição no mapa
 
 ### US22-FE01 - Implementar geolocalização com permissão e fallback seguro
 
 **Objetivo**
 Adicionar recurso de localização atual do usuário com tratamento de permissão negada sem quebrar o mapa.
+
+**Depends on**
+- Tasks: [US14-FE01](https://github.com/POA-Alema/Project/issues/48).
+- Pré-requisitos: Navegadores-alvo com suporte a geolocation definidos para o projeto.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US22-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US22-FE01.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] O sistema deve solicitar permissão de geolocalização ao usuário.
@@ -470,12 +759,57 @@ Adicionar recurso de localização atual do usuário com tratamento de permissã
 - Não afeta rotas já existentes.
 - Critérios de aceitação atendidos e demonstráveis.
 
+### US22-FE02 - Validar distância no frontend e recentralizar mapa com alerta
+
+**Objetivo**
+Aplicar lógica local no frontend para detectar quando o usuário está fora da área útil do mapa ou distante demais do alvo e recentralizar no Centro Histórico com alerta não bloqueante.
+
+**Depends on**
+- Tasks: [US22-FE01](https://github.com/POA-Alema/Project/issues/80).
+- Pré-requisitos: Regra de distância-limite e mensagem de recentralização definidas sem envio de localização ao backend.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US22-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US22-FE02.jpg)
+
+---
+
+**Critérios de Aceitação**
+- [ ] A posição do usuário não deve ser enviada, persistida ou armazenada no backend.
+- [ ] Com permissão concedida, o frontend deve calcular distância localmente para validar contexto de exibição.
+- [ ] Se o usuário estiver fora do limite configurado, o mapa deve recentralizar no Centro Histórico.
+- [ ] O sistema deve exibir alerta acessível informando a recentralização e o motivo.
+- [ ] Mensagens de geolocalização/alerta devem suportar i18n (pt/de/en).
+- [ ] O sistema deve registrar analytics somente com motivo da ação (sem coordenadas sensíveis).
+
+**Como Testar**
+1. Escrever testes para cenários dentro do limite, fora do limite e permissão negada.
+2. Implementar cálculo local de distância e regra de recentralização sem chamada ao backend.
+3. Refatorar função de cálculo em utilitário testável mantendo testes verdes.
+4. Validar manualmente no mobile com cenários simulados de distância.
+5. Registrar evidências com prints dos alertas e output dos testes.
+
+**Definição de Pronto**
+- Testes da tarefa passam.
+- Não afeta rotas já existentes.
+- Critérios de aceitação atendidos e demonstráveis.
+
 ## US23 - Abrir rota para visitar uma edificação
 
 ### US23-FE01 - Adicionar ação de abrir rota externa por coordenadas
 
 **Objetivo**
 Permitir abertura de rota para uma edificação em aplicativo de navegação externo, a partir do popup e/ou detalhe.
+
+**Depends on**
+- Tasks: [US17-FE01](https://github.com/POA-Alema/Project/issues/74), [US18-FE01](https://github.com/POA-Alema/Project/issues?q=US18-FE01).
+- Pré-requisitos: Coordenadas da edificação disponíveis para gerar URL de navegação externa.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US23-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US23-FE01.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] Deve existir opção de abrir rota no popup e/ou detalhe da edificação.
@@ -499,49 +833,38 @@ Permitir abertura de rota para uma edificação em aplicativo de navegação ext
 
 ## US24 - Abrir o mapa a partir de um QR Code ?
 
-### US24-FE01 - Suportar deep link para foco em edificação via parâmetro
+### US24-FE01 - Suportar deep link (QR Code) com foco, destaque e popup automático
 
 **Objetivo**
-Permitir que links de QR Code abram /mapa com foco automático na edificação correspondente.
+Permitir que links de QR Code abram /mapa focando a edificação correspondente e acionando destaque visual com popup automático.
+
+**Depends on**
+- Tasks: [US14-FE02](https://github.com/POA-Alema/Project/issues/49), [US17-FE01](https://github.com/POA-Alema/Project/issues/74).
+- Pré-requisitos: Formato do parâmetro de deep link (slug/id) definido e validação local implementável.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US24-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US24-FE01.jpg)
+
+---
 
 **Critérios de Aceitação**
-- [ ] Link com parâmetro de edificação deve abrir mapa focado no alvo correspondente.
-- [ ] Em parâmetro inválido, o mapa deve abrir normalmente sem quebra da experiência.
-- [ ] O comportamento deve funcionar em navegadores móveis comuns.
-- [ ] Deve haver feedback acessível quando deep link não encontrar edificação.
-- [ ] Mensagens de feedback devem suportar i18n.
-- [ ] O processamento do parâmetro não deve impactar perceptivelmente o carregamento inicial.
-
-**Como Testar**
-1. Escrever testes para parâmetro válido, inválido e ausente.
-2. Implementar leitura de query param e foco no marcador.
-3. Refatorar função de resolução de slug para utilitário testável.
-4. Validar manualmente abertura via URL em celular.
-5. Registrar evidências com vídeo curto e output dos testes.
-
-**Definição de Pronto**
-- Testes da tarefa passam.
-- Não afeta rotas já existentes.
-- Critérios de aceitação atendidos e demonstráveis.
-
-### US24-FE02 - Exibir popup/destaque automático após abertura por QR Code
-
-**Objetivo**
-Ao abrir via deep link, destacar visualmente a edificação e apresentar popup informativo automaticamente.
-
-**Critérios de Aceitação**
+- [ ] O parâmetro do deep link deve ser validado no frontend contra a lista de edificações já carregada.
+- [ ] Link com parâmetro válido deve abrir mapa focado no alvo correspondente.
+- [ ] Em parâmetro inválido, o mapa deve abrir no Centro Histórico com feedback acessível sem quebrar a experiência.
 - [ ] Ao abrir por QR Code válido, a edificação deve ser destacada automaticamente.
 - [ ] O popup informativo deve abrir sem interação manual adicional.
-- [ ] O destaque deve ser perceptível em mobile e desktop.
 - [ ] A leitura do popup automático deve manter compatibilidade com leitor de tela.
-- [ ] Mensagens e CTA do popup devem suportar i18n.
-- [ ] A automação não deve provocar travamentos no carregamento do mapa.
+- [ ] O comportamento deve funcionar em navegadores móveis comuns.
+- [ ] Mensagens de feedback devem suportar i18n.
+- [ ] O fluxo não deve depender de chamada adicional de resolução de QR no backend.
+- [ ] O processamento do deep link não deve impactar perceptivelmente o carregamento inicial do mapa.
 
 **Como Testar**
-1. Escrever teste para abertura automática de popup via parâmetro.
-2. Implementar destaque e ação automática no estado de interação.
-3. Refatorar para evitar acionar abertura automática mais de uma vez.
-4. Validar manualmente com links de QR em mobile e desktop.
+1. Escrever testes para parâmetro válido, inválido e ausente cobrindo foco, destaque e popup.
+2. Implementar leitura de query param, validação local contra catálogo carregado, foco no marcador e abertura automática do popup.
+3. Refatorar fluxo para evitar reabertura automática indevida no mesmo ciclo de navegação.
+4. Validar manualmente links de QR Code em mobile e desktop.
 5. Registrar evidências com vídeo curto e output dos testes.
 
 **Definição de Pronto**
@@ -555,6 +878,16 @@ Ao abrir via deep link, destacar visualmente a edificação e apresentar popup i
 
 **Objetivo**
 Implementar página dedicada de arquiteto com informações profissionais e biográficas, com layout responsivo.
+
+**Depends on**
+- Tasks: Nenhuma task bloqueadora.
+- Pré-requisitos: Modelo de dados de arquiteto e slug de rota definidos.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US34-FE01](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US34-FE01.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] A página de arquiteto deve exibir informações biográficas e profissionais.
@@ -576,10 +909,20 @@ Implementar página dedicada de arquiteto com informações profissionais e biog
 - Não afeta rotas já existentes.
 - Critérios de aceitação atendidos e demonstráveis.
 
-### US34-FE02 - Integrar link para arquiteto a partir da página da edificação
+### US34-FE02 - Conectar link para arquiteto a partir da página da edificação
 
 **Objetivo**
 Conectar página de detalhe da edificação com página de detalhe do arquiteto e listar obras relevantes.
+
+**Depends on**
+- Tasks: [US34-FE01](https://github.com/POA-Alema/Project/issues?q=US34-FE01), [US18-FE01](https://github.com/POA-Alema/Project/issues?q=US18-FE01).
+- Pré-requisitos: Relacionamento buildingSlug -> architectSlug definido.
+
+**Screenshots**
+- Figma: https://www.figma.com/design/uSkMnCCkbbYQhfjTDJJMwi/Uma-Poa-Alem%C3%A3?node-id=000-000&t=sg432rEXjldXN1qY-4
+- Imagem: ![US34-FE02](https://tools.ages.pucrs.br/uma-porto-alegre-alem/wiki/-/wikis/assets/US34-FE02.jpg)
+
+---
 
 **Critérios de Aceitação**
 - [ ] Deve existir link para página do arquiteto na página de detalhe da edificação.
@@ -595,6 +938,35 @@ Conectar página de detalhe da edificação com página de detalhe do arquiteto 
 3. Refatorar componentes para evitar duplicação de cards de obras.
 4. Validar manualmente fluxo de navegação completo em mobile.
 5. Registrar evidências com vídeo curto e output dos testes.
+
+**Definição de Pronto**
+- Testes da tarefa passam.
+- Não afeta rotas já existentes.
+- Critérios de aceitação atendidos e demonstráveis.
+
+### US34-FE03 - Integrar detalhe de arquiteto com backend e obras relacionadas
+
+**Objetivo**
+Conectar a experiência edificação -> arquiteto a dados reais do backend, mantendo consistência de navegação e fallback.
+
+**Depends on**
+- Tasks: [US34-FE01](https://github.com/POA-Alema/Project/issues?q=US34-FE01), [US34-FE02](https://github.com/POA-Alema/Project/issues?q=US34-FE02), [US34-BE63](https://github.com/POA-Alema/Project/issues/63).
+- Pré-requisitos: Endpoint de detalhe de arquiteto e lista de obras relacionadas disponível.
+
+**Critérios de Aceitação**
+- [ ] A página de arquiteto deve carregar dados reais de perfil e obras relacionadas.
+- [ ] O fluxo edificação -> arquiteto deve permanecer funcional com dados dinâmicos.
+- [ ] Em arquiteto inválido, o sistema deve exibir fallback sem quebrar a rota.
+- [ ] A página integrada deve manter acessibilidade por teclado e leitor de tela.
+- [ ] Textos e rótulos da experiência devem suportar i18n (pt/de/en).
+- [ ] O sistema deve registrar evento de analytics para abertura de detalhe de arquiteto.
+
+**Como Testar**
+1. Escrever teste de integração para arquiteto válido, inválido e erro de serviço.
+2. Implementar consumo real e vínculo entre detalhe da edificação e arquiteto.
+3. Refatorar renderização de obras relacionadas mantendo testes verdes.
+4. Validar manualmente o fluxo completo em mobile e desktop.
+5. Registrar evidências com print/vídeo curto e output dos testes.
 
 **Definição de Pronto**
 - Testes da tarefa passam.
